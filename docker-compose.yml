@@ -1,0 +1,88 @@
+version: '3.7'
+
+services:
+  mongodb:
+    image: mongo:4.2-rc-bionic
+    restart: unless-stopped
+    networks:
+      backend:
+        aliases:
+          - mongodb
+
+  gateway-service:
+    build: gateway-service
+    restart: unless-stopped
+    working_dir: /usr/src/backend
+    volumes:
+      - ~/.m2:/root/.m2
+      - ./gateway-service/:/usr/src/backend
+    ports:
+      - '8080:8080'
+    networks:
+      backend:
+        aliases:
+          - gateway-service
+    command: /bin/sh -c "mvn spring-boot:run && exit 1"
+
+  discovery-service:
+    build: discovery-service
+    restart: unless-stopped
+    working_dir: /usr/src/backend
+    volumes:
+      - ~/.m2:/root/.m2
+      - ./discovery-service/:/usr/src/backend
+    ports:
+      - '8081:8081'
+    networks:
+      backend:
+        aliases:
+          - discovery-service
+    command: /bin/sh -c "mvn spring-boot:run && exit 1"
+  
+  config-service:
+    build: config-service
+    restart: unless-stopped
+    working_dir: /usr/src/backend
+    volumes:
+      - ~/.m2:/root/.m2
+      - ./config-service/:/usr/src/backend
+    ports:
+      - '8082:8082'
+    networks:
+      backend:
+        aliases:
+          - config-service
+    command: /bin/sh -c "mvn spring-boot:run && exit 1"
+
+  auth-service:
+    build: auth-service
+    restart: unless-stopped
+    working_dir: /usr/src/backend
+    volumes:
+      - ~/.m2:/root/.m2
+      - ./auth-service/:/usr/src/backend
+    ports:
+      - '8083:8083'
+    networks:
+      backend:
+        aliases:
+          - auth-service
+    command: /bin/sh -c "mvn spring-boot:run && exit 1"
+  
+  users-service:
+    build: users-service
+    restart: unless-stopped
+    working_dir: /usr/src/backend
+    volumes:
+      - ~/.m2:/root/.m2
+      - ./users-service/:/usr/src/backend
+    ports:
+      - '8084:8084'
+    networks:
+      backend:
+        aliases:
+          - users-service
+    command: /bin/sh -c "mvn spring-boot:run && exit 1"
+
+networks:
+  backend:
