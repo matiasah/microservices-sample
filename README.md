@@ -1,4 +1,6 @@
 # Microservices Sample
+A demonstration of microservices using Spring Framework and Spring Cloud.
+
 ## Class Diagram (Domain)
 ![](https://raw.githubusercontent.com/matiasah/microservices-sample/master/Domain.png)
 
