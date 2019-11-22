@@ -9,6 +9,19 @@ services:
         aliases:
           - mongodb
 
+  jms-service:
+    image: vromero/activemq-artemis:2.10.0
+    restart: unless-stopped
+    networks:
+      backend:
+        aliases:
+          - jms-service
+    ports:
+      - '8161:8161'
+    environment:
+      - ARTEMIS_USERNAME=admin
+      - ARTEMIS_PASSWORD=admin
+
   gateway-service:
     build: gateway-service
     restart: unless-stopped
