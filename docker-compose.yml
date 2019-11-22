@@ -84,5 +84,35 @@ services:
           - users-service
     command: /bin/sh -c "mvn spring-boot:run && exit 1"
 
+  products-service:
+    build: products-service
+    restart: unless-stopped
+    working_dir: /usr/src/backend
+    volumes:
+      - ~/.m2:/root/.m2
+      - ./products-service/:/usr/src/backend
+    ports:
+      - '8085:8085'
+    networks:
+      backend:
+        aliases:
+          - products-service
+    command: /bin/sh -c "mvn spring-boot:run && exit 1"
+  
+  orders-service:
+    build: orders-service
+    restart: unless-stopped
+    working_dir: /usr/src/backend
+    volumes:
+      - ~/.m2:/root/.m2
+      - ./orders-service/:/usr/src/backend
+    ports:
+      - '8086:8086'
+    networks:
+      backend:
+        aliases:
+          - orders-service
+    command: /bin/sh -c "mvn spring-boot:run && exit 1"
+
 networks:
   backend:
