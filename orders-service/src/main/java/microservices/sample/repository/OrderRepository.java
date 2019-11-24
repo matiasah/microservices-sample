@@ -5,6 +5,7 @@
  */
 package microservices.sample.repository;
 
+import java.util.List;
 import microservices.sample.model.Order;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -13,5 +14,7 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * @author matia
  */
 public interface OrderRepository extends MongoRepository<Order, String> {
+    
+    public List<Order> findByProducts_Id(String id);
     
 }

@@ -5,7 +5,6 @@
  */
 package microservices.sample.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +12,6 @@ import lombok.EqualsAndHashCode;
  *
  * @author matia
  */
-@JsonTypeName("Product")
 @EqualsAndHashCode(of = "id")
 @Data
 public class Product {

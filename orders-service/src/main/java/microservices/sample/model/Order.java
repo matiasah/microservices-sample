@@ -5,10 +5,10 @@
  */
 package microservices.sample.model;
 
-import com.fasterxml.jackson.annotation.JsonTypeName;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  *
  * @author matia
  */
-@JsonTypeName("Order")
+@EqualsAndHashCode(of = "id")
 @Data
 @Document
 public class Order {
