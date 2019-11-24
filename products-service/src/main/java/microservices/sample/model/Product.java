@@ -5,6 +5,7 @@
  */
 package microservices.sample.model;
 
+import com.querydsl.core.annotations.QueryEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
@@ -16,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @EqualsAndHashCode(of = "id")
 @Data
+@QueryEntity
 @Document
 public class Product {
     

@@ -6,12 +6,17 @@
 package microservices.sample.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.core.types.Predicate;
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import microservices.sample.model.Order;
+import microservices.sample.model.Product;
 import microservices.sample.repository.OrderRepository;
+import microservices.sample.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,54 +31,69 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class OrderController {
-    
+
     @Autowired
     private OrderRepository orderRepository;
     
     @Autowired
+    private ProductService productService;
+
+    @Autowired
     private ObjectMapper objectMapper;
-    
+
     @Autowired
     private JmsTemplate jmsTemplate;
-    
+
     @GetMapping
-    public List<Order> index() {
-        return this.orderRepository.findAll();
+    public Iterable<Order> index(@QuerydslPredicate(root = Order.class) Predicate predicate) {
+        return this.orderRepository.findAll(predicate);
     }
-    
+
     @GetMapping("{id}")
     public Order get(@PathVariable("id") Order order) {
         return order;
     }
-    
+
     @PostMapping
     public Order store(@RequestBody Order order) {
         // Remove ID from order
         order.setId(null);
-        
+
+        // If order contains products
+        if (order.getProducts() != null) {
+            // Product Ids
+            Set<String> productsIds = order.getProducts().stream().map(product -> product.getId()).collect(Collectors.toSet());
+            
+            // Products
+            Set<Product> products = this.productService.get(productsIds);
+            
+            // Set products
+            order.setProducts(products);
+        }
+
         // Save order
         this.orderRepository.save(order);
-        
+
         // Publish order
         this.jmsTemplate.convertAndSend("order", order);
-        
+
         // Return order
         return order;
     }
-    
+
     @PatchMapping("{id}")
     public Order patch(@PathVariable("id") Order order, HttpServletRequest request) throws IOException {
         // Update order
         this.objectMapper.readerForUpdating(order).readValue(request.getReader());
-        
+
         // Save order
         this.orderRepository.save(order);
-        
+
         // Publish order
         this.jmsTemplate.convertAndSend("order", order);
-        
+
         // Return order
         return order;
     }
-    
+
 }

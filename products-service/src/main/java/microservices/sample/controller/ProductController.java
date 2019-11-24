@@ -6,12 +6,14 @@
 package microservices.sample.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.querydsl.core.types.Predicate;
 import java.io.IOException;
-import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import microservices.sample.model.Product;
 import microservices.sample.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -37,13 +39,18 @@ public class ProductController {
     private JmsTemplate jmsTemplate;
     
     @GetMapping
-    public List<Product> index() {
-        return this.productRepository.findAll();
+    public Iterable<Product> index(@QuerydslPredicate(root = Product.class) Predicate predicate) {
+        return this.productRepository.findAll(predicate);
     }
     
     @GetMapping("{id}")
     public Product get(@PathVariable("id") Product product) {
         return product;
+    }
+    
+    @PostMapping("list")
+    public Iterable<Product> get(@RequestBody Set<String> ids) {
+        return this.productRepository.findAllById(ids);
     }
     
     @PostMapping

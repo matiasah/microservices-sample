@@ -5,6 +5,7 @@
  */
 package microservices.sample.model;
 
+import com.querydsl.core.annotations.QueryEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,6 +14,7 @@ import lombok.EqualsAndHashCode;
  * @author matia
  */
 @EqualsAndHashCode(of = "id")
+@QueryEntity
 @Data
 public class Product {
     

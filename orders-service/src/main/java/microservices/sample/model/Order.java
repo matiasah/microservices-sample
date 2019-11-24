@@ -5,6 +5,7 @@
  */
 package microservices.sample.model;
 
+import com.querydsl.core.annotations.QueryEntity;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Data;
@@ -18,6 +19,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @EqualsAndHashCode(of = "id")
 @Data
+@QueryEntity
 @Document
 public class Order {
     
