@@ -22,6 +22,19 @@ services:
       - ARTEMIS_USERNAME=admin
       - ARTEMIS_PASSWORD=admin
 
+  frontend:
+    build: Frontend
+    restart: unless-stopped
+    working_dir: /usr/src/frontend
+    volumes:
+      - ./Frontend/:/usr/src/frontend
+    ports:
+      - '80:80'
+      - '49153:49153'
+      - '9876:9876'
+      - '49152:49152'
+    command: /bin/sh run.sh
+
   gateway-service:
     build: gateway-service
     restart: unless-stopped

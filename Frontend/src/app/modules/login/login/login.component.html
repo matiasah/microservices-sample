@@ -1,0 +1,56 @@
+<div class="container section h-100">
+    <div class="row h-100">
+        <div class="col-sm-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4 align-self-sm-start align-self-md-center">
+            <mat-card class="mat-elevation-z8">
+
+                <div class="row">
+                    <div class="col-12 justify-content-center d-flex">
+                        <h2 class="mat-h2">Login</h2>
+                    </div>
+                </div>
+
+                <!-- Login form -->
+                <form #form="ngForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <input matInput placeholder="User name" [(ngModel)]="user.username" name="username" required>
+                        </mat-form-field>
+                        <mat-form-field class="col-12">
+                            <input matInput placeholder="Password" [(ngModel)]="user.password" type="password" name="password" required>
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngIf="incorrect" class="mt-1 mb-2">
+                        <mat-card class="red">
+                            User name or password are incorrect.
+                        </mat-card>
+                    </div>
+
+                    <!-- Sign in button -->
+                    <button *ngIf="!signingIn" type="submit" class="col-12" mat-raised-button color="primary">
+                        Sign in
+                    </button>
+
+                    <div *ngIf="signingIn" class="row">
+                        <mat-progress-spinner class="m-auto" diameter="48" color="primary" mode="indeterminate"></mat-progress-spinner>
+                    </div>
+                </form>
+
+                <div class="mt-2 mb-3">
+                    <div class="col-12">
+                        <mat-divider></mat-divider>
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-12">
+                        <button class="w-100" mat-raised-button color="accent" routerLink="register">
+                            Register
+                        </button>
+                    </div>
+                </div>
+
+            </mat-card>
+        </div>
+    </div>
+</div>

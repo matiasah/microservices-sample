@@ -1,0 +1,47 @@
+<div class="container section h-100">
+    <div class="row h-100">
+        <div class="col-sm-12 col-md-6 col-lg-4 offset-md-3 offset-lg-4 align-self-sm-start align-self-md-center">
+            <mat-card class="mat-elevation-z8">
+
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="mat-h2 text-center">Sign up</h2>
+                    </div>
+                </div>
+
+                <!-- Sign up form -->
+                <form #form="ngForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <mat-form-field class="col-12">
+                            <input matInput placeholder="User name" [(ngModel)]="user.username" name="username" required>
+                        </mat-form-field>
+                        <mat-form-field class="col-12">
+                            <input matInput placeholder="Password" [(ngModel)]="user.password" type="password" name="password" required>
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngIf="error" class="mt-1 mb-2">
+                        <mat-card class="red">
+                            The user name is already in use.
+                        </mat-card>
+                    </div>
+
+                    <div *ngIf="successful" class="mt-1 mb-2">
+                        <mat-card class="green">
+                            Signed up successfully.
+                        </mat-card>
+                    </div>
+
+                    <!-- Sign up button -->
+                    <button *ngIf="!signingUp" type="submit" class="col-12" mat-raised-button color="primary">
+                        Sign up
+                    </button>
+
+                    <div *ngIf="signingUp" class="row">
+                        <mat-progress-spinner class="m-auto" diameter="48" color="primary" mode="indeterminate"></mat-progress-spinner>
+                    </div>
+                </form>
+            </mat-card>
+        </div>
+    </div>
+</div>
