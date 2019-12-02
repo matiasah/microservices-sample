@@ -6,9 +6,12 @@
 package microservices.sample.model;
 
 import com.querydsl.core.annotations.QueryEntity;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
@@ -25,5 +28,11 @@ public class Product {
     private String id;
     private String name;
     private long price;
+    
+    @CreatedDate
+    private LocalDateTime createdAt;
+    
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
     
 }

@@ -59,7 +59,7 @@ export class LoginComponent implements OnInit {
                     this.authService.setToken(userToken);
 
                     // Redirect to the system
-                    // this.router.navigate(['ae']);
+                    this.router.navigate(['system']);
                 },
                 error => {
                     // Indicate that it's currently not singing in

@@ -6,6 +6,7 @@
 package microservices.sample.model;
 
 import com.querydsl.core.annotations.QueryEntity;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -21,5 +22,8 @@ public class Product {
     private String id;
     private String name;
     private long price;
+    
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     
 }

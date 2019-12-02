@@ -20,29 +20,44 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ProductListener {
-    
+
     @Autowired
     private OrderRepository orderRepository;
-    
+
     @JmsListener(destination = "product")
-    public void receiveProduct(Product product) {
+    public void receiveProduct(Product receivedProduct) {
         // Find orders that contain this product
-        List<Order> orders = this.orderRepository.findByProducts_Id(product.getId());
-        
+        List<Order> orders = this.orderRepository.findByProducts_Id(receivedProduct.getId());
+
         // For each order
         for (Order order : orders) {
             // Get the order products set
             Set<Product> products = order.getProducts();
-            
-            // Remove the product with the old information
-            products.remove(product);
-            
-            // Add the product with updated information
-            products.add(product);
+
+            // For each product
+            for (Product product : products) {
+                
+                // If it's the same product
+                if (product.equals(receivedProduct)) {
+                    
+                    // If the received product is newer
+                    if (receivedProduct.getUpdatedAt().isAfter(product.getUpdatedAt())) {
+                        // Remove the product with the old information
+                        products.remove(receivedProduct);
+
+                        // Add the product with updated information
+                        products.add(receivedProduct);
+                        
+                        // Stop iterating products
+                        break;
+                    }
+                }
+            }
+
         }
-        
+
         // Update all modified orders
         this.orderRepository.saveAll(orders);
     }
-    
+
 }

@@ -1,0 +1,55 @@
+<mat-toolbar color="primary" layout="row">
+    <mat-toolbar-row>
+        <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h4 class="ml-2">Microservices sample</h4>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav class="h-100" #sidenav mode="push">
+
+        <mat-card class="mat-elevation-z0">
+            <mat-card-title>
+                <div class="justify-content-center d-flex">
+                    <h2 class="mat-h2 text-center">Welcome</h2>
+                </div>
+            </mat-card-title>
+        </mat-card>
+
+        <mat-nav-list>
+
+            <h3 mat-subheader>System</h3>
+
+            <a mat-list-item (click)="sidenav.close()" routerLink="./">
+                <mat-icon matListIcon>home</mat-icon>
+                <span mat-line>Home</span>
+            </a>
+
+            <a mat-list-item (click)="sidenav.close()" routerLink="./orders">
+                <mat-icon matListIcon>receipt</mat-icon>
+                <span mat-line>Orders</span>
+            </a>
+
+            <a mat-list-item (click)="sidenav.close()" routerLink="./products">
+                <mat-icon matListIcon>description</mat-icon>
+                <span mat-line>Products</span>
+            </a>
+
+            <mat-divider></mat-divider>
+            <h3 mat-subheader>User</h3>
+
+            <a mat-list-item (click)="onLogout()">
+                <mat-icon matListIcon>close</mat-icon>
+                <span mat-line>Logout</span>
+            </a>
+
+        </mat-nav-list>
+
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
