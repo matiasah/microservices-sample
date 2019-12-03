@@ -40,6 +40,7 @@ public class JmsConfig {
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setPubSubDomain(true);
         factory.setSubscriptionShared(true);
+        factory.setSubscriptionDurable(true);
         factory.setMessageConverter(messageConverter);
         
         configurer.configure(factory, connectionFactory);
