@@ -6,7 +6,17 @@ import { SystemComponent } from './system/system.component';
 const routes: Routes = [
     {
         path: '',
-        component: SystemComponent
+        component: SystemComponent,
+        children: [
+            {
+                path: 'orders',
+                loadChildren: () => import('../orders/orders.module').then(m => m.OrdersModule)
+            },
+            {
+                path: 'products',
+                loadChildren: () => import('../products/products.module').then(m => m.ProductsModule)
+            }
+        ]
     }
 ];
 

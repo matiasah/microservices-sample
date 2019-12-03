@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="col-12 d-flex justify-content-between">
+        <h2 mat-dialog-title>
+            Create product
+        </h2>
+
+        <button mat-icon-button mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>
+
+<form #form="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
+
+    <mat-dialog-content>
+        <div class="row">
+            <mat-form-field class="col-12 col-md-6">
+                <input matInput name="name" [(ngModel)]="product.name" required placeholder="Name">
+            </mat-form-field>
+            <mat-form-field class="col-12 col-md-6">
+                <input matInput name="price" [(ngModel)]="product.price" required placeholder="Price">
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <div *ngIf="!creating" class="col-6 col-md-3 offset-0 offset-md-6">
+            <button class="w-100" type="submit" mat-raised-button color="primary">
+                <span class="d-none d-md-inline">Create</span>
+                <mat-icon class="d-inline d-md-none">done</mat-icon>
+            </button>
+        </div>
+
+        <div *ngIf="!creating" class="col-6 col-md-3 offset-0">
+            <button class="w-100" mat-raised-button mat-dialog-close color="warn">
+                <span class="d-none d-md-inline">Cancel</span>
+                <mat-icon class="d-inline d-md-none">close</mat-icon>
+            </button>
+        </div>
+
+        <div class="col-12 justify-content-center d-flex" *ngIf="creating">
+            <mat-progress-spinner diameter="48" color="primary" mode="indeterminate"></mat-progress-spinner>
+        </div>
+    </mat-dialog-actions>
+
+</form>

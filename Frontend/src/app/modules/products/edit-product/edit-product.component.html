@@ -1,0 +1,47 @@
+<mat-card class="m-3 mat-elevation-z2">
+
+    <mat-card-title>
+        Edit product
+    </mat-card-title>
+
+    <mat-card-content>
+
+        <!-- Spinner indicates that the object is being loaded -->
+        <div *ngIf="!product" class="row">
+            <div class="col-12 justify-content-center d-flex">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form #form="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
+
+            <!-- Form content -->
+            <div *ngIf="product" class="row">
+                <mat-form-field class="col-12 col-md-6">
+                    <input matInput name="name" [(ngModel)]="product.name" required placeholder="Name">
+                </mat-form-field>
+                <mat-form-field class="col-12 col-md-6">
+                    <input matInput name="price" [(ngModel)]="product.price" required placeholder="Price">
+                </mat-form-field>
+            </div>
+
+            <div *ngIf="product" class="row">
+                <!-- Edit button -->
+                <div *ngIf="!editing" class="col-12 col-md-3 offset-0 offset-md-9">
+                    <button class="w-100" type="submit" mat-raised-button color="primary">
+                        <span class="d-none d-md-inline">Edit</span>
+                        <mat-icon class="d-inline d-md-none">done</mat-icon>
+                    </button>
+                </div>
+
+                <!-- Spinner indicates that the object is being edited -->
+                <div class="col-12 justify-content-center d-flex" *ngIf="editing">
+                    <mat-progress-spinner diameter="48" color="primary" mode="indeterminate"></mat-progress-spinner>
+                </div>
+            </div>
+
+        </form>
+
+    </mat-card-content>
+</mat-card>

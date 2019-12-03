@@ -1,0 +1,91 @@
+<mat-card class="m-3 mat-elevation-z2">
+
+    <mat-card-title>
+        Products
+    </mat-card-title>
+
+    <mat-card-content>
+
+        <form #form="ngForm" autocomplete="off">
+            <div class="row">
+                <mat-form-field class="col">
+                    <input matInput name="id" [(ngModel)]="idFilter" placeholder="Id.">
+                </mat-form-field>
+
+                <mat-form-field class="col">
+                    <input matInput name="name" [(ngModel)]="nameFilter" placeholder="Name">
+                </mat-form-field>
+
+                <mat-form-field class="col">
+                    <input matInput name="price" [(ngModel)]="priceFilter" placeholder="Price">
+                </mat-form-field>
+            </div>
+        </form>
+
+        <div *ngIf="isLoading | async" class="loading-shade">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <table mat-table class="w-100" [dataSource]="dataSource" matSort>
+
+            <!-- ID -->
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Id.
+                </mat-header-cell>
+                <mat-cell *matCellDef="let product">
+                    {{ product.id }}
+                </mat-cell>
+            </ng-container>
+
+            <!-- Name -->
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Name
+                </mat-header-cell>
+                <mat-cell *matCellDef="let product">
+                    {{ product.name }}
+                </mat-cell>
+            </ng-container>
+
+            <!-- Price -->
+            <ng-container matColumnDef="price">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Price
+                </mat-header-cell>
+                <mat-cell *matCellDef="let product">
+                    {{ product.price }}
+                </mat-cell>
+            </ng-container>
+
+            <!-- Options -->
+            <ng-container matColumnDef="options">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let product">
+
+                    <!-- Edit -->
+                    <button mat-icon-button matTooltip="Edit" [routerLink]="product.id">
+                        <mat-icon>settings</mat-icon>
+                    </button>
+
+                    <!-- Delete -->
+                    <button mat-icon-button matTooltip="Delete" (click)="delete(product)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </table>
+
+        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="(page | async)?.pageIndex" [length]="(page | async)?.length">
+        </mat-paginator>
+    </mat-card-content>
+</mat-card>
+
+<div class="fab-rb">
+    <button mat-fab color="primary" (click)="create()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
