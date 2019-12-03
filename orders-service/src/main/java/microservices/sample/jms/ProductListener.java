@@ -24,7 +24,13 @@ public class ProductListener {
     @Autowired
     private OrderRepository orderRepository;
 
-    @JmsListener(destination = "product")
+    /**
+     * Receive a product and update it locally
+     * (subscription name must always be different per microservice, but the same per replica)
+     * 
+     * @param receivedProduct 
+     */
+    @JmsListener(destination = "product", subscription = "orders-subscription")
     public void receiveProduct(Product receivedProduct) {
         // Find orders that contain this product
         List<Order> orders = this.orderRepository.findByProducts_Id(receivedProduct.getId());

@@ -13,6 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import microservices.sample.model.Product;
 import microservices.sample.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +42,18 @@ public class ProductController {
     
     @GetMapping
     public Iterable<Product> index(@QuerydslPredicate(root = Product.class) Predicate predicate) {
-        return this.productRepository.findAll(predicate);
+        if (predicate != null) {
+            return this.productRepository.findAll(predicate);
+        }
+        return this.productRepository.findAll();
+    }
+    
+    @GetMapping("page")
+    public Page<Product> page(@QuerydslPredicate(root = Product.class) Predicate predicate, Pageable pageable) {
+        if (predicate != null) {
+            return this.productRepository.findAll(predicate, pageable);
+        }
+        return this.productRepository.findAll(pageable);
     }
     
     @GetMapping("{id}")
@@ -63,6 +76,7 @@ public class ProductController {
         
         // Publish product
         this.jmsTemplate.convertAndSend("product", product);
+        System.out.println("update sent");
         
         // Return product with ID
         return product;
