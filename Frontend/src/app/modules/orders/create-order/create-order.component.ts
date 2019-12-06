@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { ProductService } from 'src/app/services/product.service';
-import { Product } from 'src/app/interfaces/product';
+import { OrderService } from 'src/app/services/order.service';
+import { Order } from 'src/app/interfaces/order';
 
 @Component({
-    selector: 'app-create-product',
-    templateUrl: './create-product.component.html',
-    styleUrls: ['./create-product.component.scss']
+    selector: 'app-create-order',
+    templateUrl: './create-order.component.html',
+    styleUrls: ['./create-order.component.scss']
 })
-export class CreateProductComponent implements OnInit {
+export class CreateOrderComponent implements OnInit {
 
     // The object to create
-    public product: Product = {} as Product;
+    public order: Order = {} as Order;
 
     // Indicates if the object is being created
     public creating = false;
@@ -22,9 +22,9 @@ export class CreateProductComponent implements OnInit {
     public form: NgForm;
 
     public constructor(
-        private dialogRef: MatDialogRef<CreateProductComponent>,
+        private dialogRef: MatDialogRef<CreateOrderComponent>,
         private snackBar: MatSnackBar,
-        private productService: ProductService
+        private orderService: OrderService
     ) {
 
     }
@@ -40,13 +40,13 @@ export class CreateProductComponent implements OnInit {
             this.creating = true;
 
             // Create object
-            this.productService.save(this.product).subscribe(
+            this.orderService.save(this.order).subscribe(
                 response => {
                     // Indicate the object is not being created
                     this.creating = false;
 
                     // Notify successful creation
-                    this.snackBar.open('The product was created successfully', 'Accept', { duration: 2000 });
+                    this.snackBar.open('The order was created successfully', 'Accept', { duration: 2000 });
 
                     // Close modal
                     this.dialogRef.close();
@@ -56,7 +56,7 @@ export class CreateProductComponent implements OnInit {
                     this.creating = false;
 
                     // Notify failed to create
-                    this.snackBar.open('Failed to create the product', 'Accept', { duration: 2000 });
+                    this.snackBar.open('Failed to create the order', 'Accept', { duration: 2000 });
 
                     // Close modal
                     this.dialogRef.close();

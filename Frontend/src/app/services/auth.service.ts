@@ -53,7 +53,7 @@ export class AuthService {
         form.set('password', user.password);
 
         // Send request
-        return this.http.post<ResponseToken>(environment.host + 'auth/oauth/token', form);
+        return this.http.post<ResponseToken>(`${environment.host}/auth/oauth/token`, form);
     }
 
     /**
@@ -62,7 +62,7 @@ export class AuthService {
      * @param user The user
      */
     public signUp(user: User): Observable<boolean> {
-        return this.http.post<boolean>(environment.host + 'users', user);
+        return this.http.post<boolean>(`${environment.host}/users`, user);
     }
 
     /**

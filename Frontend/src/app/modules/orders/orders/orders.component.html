@@ -1,0 +1,77 @@
+<mat-card class="m-3 mat-elevation-z2">
+
+    <mat-card-title>
+        Orders
+    </mat-card-title>
+
+    <mat-card-content>
+
+        <form #form="ngForm" autocomplete="off">
+            <div class="row">
+                <mat-form-field class="col">
+                    <input matInput name="id" [(ngModel)]="idFilter" placeholder="Id.">
+                </mat-form-field>
+
+                <mat-form-field class="col">
+                    <input matInput name="client" [(ngModel)]="clientFilter" placeholder="Client">
+                </mat-form-field>
+            </div>
+        </form>
+
+        <div *ngIf="isLoading | async" class="loading-shade">
+            <mat-spinner></mat-spinner>
+        </div>
+
+        <table mat-table class="w-100" [dataSource]="dataSource" matSort>
+
+            <!-- ID -->
+            <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Id.
+                </mat-header-cell>
+                <mat-cell *matCellDef="let order">
+                    {{ order.id }}
+                </mat-cell>
+            </ng-container>
+
+            <!-- Client -->
+            <ng-container matColumnDef="client">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Client
+                </mat-header-cell>
+                <mat-cell *matCellDef="let order">
+                    {{ order.client }}
+                </mat-cell>
+            </ng-container>
+
+            <!-- Options -->
+            <ng-container matColumnDef="options">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let order">
+
+                    <!-- Edit -->
+                    <button mat-icon-button matTooltip="Edit" [routerLink]="order.id">
+                        <mat-icon>settings</mat-icon>
+                    </button>
+
+                    <!-- Delete -->
+                    <button mat-icon-button matTooltip="Delete" (click)="delete(order)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </table>
+
+        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageIndex]="(page | async)?.pageIndex" [length]="(page | async)?.length">
+        </mat-paginator>
+    </mat-card-content>
+</mat-card>
+
+<div class="fab-rb">
+    <button mat-fab color="primary" (click)="create()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>

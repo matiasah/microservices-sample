@@ -24,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
             const route: string = request.url.substring(environment.host.length);
 
             // Is it OAuth2 API route?
-            if (route.substr(0, 16) === 'auth/oauth/token') {
+            if (route === '/auth/oauth/token') {
                 // Autorización
                 const authorization: string = 'Basic ' + window.btoa(this.CLIENT_ID + ':' + this.CLIENT_SECRET);
 

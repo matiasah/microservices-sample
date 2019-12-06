@@ -16,6 +16,8 @@ import microservices.sample.model.Product;
 import microservices.sample.repository.OrderRepository;
 import microservices.sample.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +48,18 @@ public class OrderController {
 
     @GetMapping
     public Iterable<Order> index(@QuerydslPredicate(root = Order.class) Predicate predicate) {
-        return this.orderRepository.findAll(predicate);
+        if (predicate != null) {
+            return this.orderRepository.findAll(predicate);
+        }
+        return this.orderRepository.findAll();
+    }
+    
+    @GetMapping("page")
+    public Page<Order> page(@QuerydslPredicate(root = Order.class) Predicate predicate, Pageable pageable) {
+        if (predicate != null) {
+            return this.orderRepository.findAll(predicate, pageable);
+        }
+        return this.orderRepository.findAll(pageable);
     }
 
     @GetMapping("{id}")

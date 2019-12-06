@@ -2,18 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { ProductService } from 'src/app/services/product.service';
-import { Product } from 'src/app/interfaces/product';
+import { OrderService } from 'src/app/services/order.service';
+import { Order } from 'src/app/interfaces/order';
 
 @Component({
-    selector: 'app-edit-product',
-    templateUrl: './edit-product.component.html',
-    styleUrls: ['./edit-product.component.scss']
+    selector: 'app-edit-order',
+    templateUrl: './edit-order.component.html',
+    styleUrls: ['./edit-order.component.scss']
 })
-export class EditProductComponent implements OnInit {
+export class EditOrderComponent implements OnInit {
 
-    // The object to modify
-    public product: Product;
+    // The object to edit
+    public order: Order = {} as Order;
 
     // Indicates if the object is being edited
     public editing = false;
@@ -25,7 +25,7 @@ export class EditProductComponent implements OnInit {
     public constructor(
         private route: ActivatedRoute,
         private snackBar: MatSnackBar,
-        private productService: ProductService
+        private orderService: OrderService
     ) {
         // Subscribe to ID path variable
         this.route.params.subscribe(
@@ -33,10 +33,10 @@ export class EditProductComponent implements OnInit {
                 // Get the ID
                 const id: number = params.id;
 
-                // Find product by id
-                this.productService.findById(id).subscribe(
+                // Find order by id
+                this.orderService.findById(id).subscribe(
                     response => {
-                        this.product = response;
+                        this.order = response;
                     }
                 );
             }
@@ -54,20 +54,20 @@ export class EditProductComponent implements OnInit {
             this.editing = true;
 
             // Edit object
-            this.productService.save(this.product).subscribe(
+            this.orderService.save(this.order).subscribe(
                 response => {
                     // Indicate the object is not being edited
                     this.editing = false;
 
                     // Notify successful edition
-                    this.snackBar.open('The product was updated successfully', 'Accept', { duration: 2000 });
+                    this.snackBar.open('The order was updated successfully', 'Accept', { duration: 2000 });
                 },
                 error => {
                     // Indicate the object is not being edited
                     this.editing = false;
 
-                    // Notify failed to update
-                    this.snackBar.open('Failed to update the product', 'Accept', { duration: 2000 });
+                    // Notify failed to edit
+                    this.snackBar.open('Failed to update the order', 'Accept', { duration: 2000 });
                 }
             );
         }
